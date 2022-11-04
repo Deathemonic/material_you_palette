@@ -1,0 +1,6 @@
+[Config]
+ignore-tests = true
+skip-clean = true
+
+[report]
+out = ["Lcov"]
