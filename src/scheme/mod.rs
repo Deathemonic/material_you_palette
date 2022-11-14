@@ -36,6 +36,7 @@ pub enum Role {
     InversePrimary,
 }
 
+// This was only needed for looping through the "scheme" to see the values
 impl Role {
     pub fn iterator() -> Iter<'static, Role> {
         static ROLES: [Role; 29] = [
