@@ -1,4 +1,4 @@
-[Config]
+[config]
 ignore-tests = true
 skip-clean = true
 
