@@ -57,3 +57,5 @@ fn main() {
 - [ ] Incorporate serde for optionally getting JSON for the palette
 
 ## Contributing
+
+Contributions are always welcome. Please see the [contributions](./CONTRIBUTING.md) note for more information.
