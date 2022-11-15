@@ -56,6 +56,24 @@ fn main() {
 - [ ] Documentation improvements
 - [ ] Incorporate serde for optionally getting JSON for the palette
 
+## Project Goals
+
+The primary goal for this project is to provide a simple library in Rust to produce a palette that is compatible with the Material You color system as detailed by the Material Foundation. The focus of this library is specifically on the colors, roles and other associated concepts of the palette.
+
+The main goals:
+
+1. Produce a palette using the HCT + L colorspace defined by Google for Material Design.
+2. The palette should be produced from a single color supplied by the user.
+    - The color may be supplied directly or manually
+    - The color may be "plucked" from a supplied image file
+3. The produced palette should be available in as many necessary or useful formats.
+
+What this project isn't:
+
+- This is not a an application that will generate a set of theme files for any particular application. This library should be used by such an application.
+- Although there is an ability to load image files, the only purpose for that is to select a primary or key color from the image file on which to base the HCT palette. This library should not be setting wallpapers or otherwise altering system themes / appearance. This library should be used by such an application.
+- This library is not intended to be a stand-alone application, thus the term library being used. So there should be no command-line arguments to be processed, no `fn main` or `main.rs` files included in the repo. Everything in the crate should stem from the `lib.rs` only.
+
 ## Contributing
 
 Contributions are always welcome. Please see the [contributions](./CONTRIBUTING.md) note for more information.

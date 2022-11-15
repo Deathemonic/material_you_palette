@@ -41,23 +41,62 @@ Anyone can contribute at anytime in the any or all of the following ways:
 
 #### By Reporting Bugs<a id="bugs"></a>
 
+Please, by all means, if you use this library and it doesn't work then let us know by submitting an issue.
+
+When doing so, please include the operating system info (name, version), Rust version, any error message that was produced and a detailed explanation of what is wrong. I (for now), will do my best to address it in a timely fashion.
+
+---
+
 #### By Suggesting Enhancements<a id="enhancements"></a>
+
+If you can think of some way to make this project better and it falls within the boundaries of the project goals, please submit a request for an enhancement and I (for now) will do my best to answer any questions or see it included in the project.
+
+---
 
 #### By Providing Code Improvements<a id="code"></a>
 
-##### Your first code contribution
+##### 1. Your first code contribution
 
-##### Do it the Idiomatic Rust way
+First, this library was developed on an Arch Linux setup but it should work anywhere Rust does. There shouldn't be any OS specific things at work here.
 
-##### Pull requests
+Secondly, there are already more dependencies than I would like to have in the cargo.toml. So if you're code contribution includes a new dependency, please explain in detail why the dependency is needed and how the project benefits.
+
+All that being said, code contributions are always welcome. Please follow best practices by creating a new branch locally, make your changes, test them and submit a pull request. Be sure to:
+
+1. Comment / Document your code as completely as possible using standard conventions.
+2. Include tests for your code, if possible.
+    - If not possible, please add a skeleton function for testing your function with an explanation of what conditions should be tested and what the expectations are for those tests.
+3. Provide example usage for your changes, if possible, in code comments.
+4. Clean up any debug lines.
+5. Ensure that all existing tests pass.
+
+##### 2. Do it the Idiomatic Rust way
+
+When coding, code the Idiomatic Rust way. That being - name your variables appropriately (duh), use `cargo fmt` to clean up code structure, use `cargo clippy` to test your syntax and code's buildable state, update your documentation with `cargo doc`, etc. There are numerous sources for how to be idiomatic, primarily the [Rust book](https://www.rust-lang.org/learn). That's about all I can say on this topic for now.
+
+##### 3. Pull requests
+
+When submitting a pull request, please be sure that you have pushed as clean a commit as possible to the repo and give your PR a simple but descriptive name. It will be reviewed for suitability and functionality as quickly as possible and merged or sent back with fully documented reasons. This seems about as simple a process as can be expected for now. I'm sure this will be more formalized as time progresses.
+
+---
 
 #### By Building and / or Running Tests<a id="tests"></a>
 
+Testing any application is a necessary... er... evil? It's critical in any case. Testing should be as complete as possible and should test 1 functional path for each method or function in the code at a minimum. This, of course is not always possible. In those cases, the function should be documented as "untestable" but I would expect this to be rarely, if ever, used.
+
 ##### Your first test contribution
+
+Just like the section above, [By Providing Code Improvements](#code), tests should be written in a new development branch locally and then submitted to the repo for a PR. Since Rust tests are usually bundled with the code and is actual Rust code, the same coding standards apply. In other words...
 
 ##### Do it the Idiomatic Rust way
 
+This is the same as the section of the same name under [By Providing Code Improvements](#code). Use `cargo fmt` to format your code. Use `cargo clippy` to verify the syntax. Use `cargo doc` to update any documentation.
+
 ##### Pull requests
+
+Again, very similar to the similarly named section under [By Providing Code Improvements](#code). Be descriptive in your PR title and description. Make sure your PR commit is as clean as possible.
+
+---
 
 #### By Improving Documentation<a id="documentation"></a>
 
