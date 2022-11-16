@@ -12,8 +12,8 @@ use crate::utils::math::{difference_degrees, rotation_direction, sanitize_degree
 ///
 /// # Arguments
 ///
-/// * `design_color` - ARGB representation of an arbitrary color.
-/// * `source_color` - ARGB representation of the main theme color.
+/// * `design_color`: ARGB representation of an arbitrary color.
+/// * `source_color`: ARGB representation of the main theme color.
 ///
 /// # Returns
 ///
@@ -35,9 +35,9 @@ pub fn harmonize(design_color: [u8; 4], source_color: [u8; 4]) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// * `from` - ARGB representation of color
-/// * `to` - ARGB representation of color
-/// * `amount` - how much blending to perform; 0.0 >= and <= 1.0
+/// * `from`: ARGB representation of color
+/// * `to`: ARGB representation of color
+/// * `amount`: how much blending to perform; 0.0 >= and <= 1.0
 ///
 /// # Returns
 ///
@@ -55,9 +55,9 @@ pub fn hct_hue(from: [u8; 4], to: [u8; 4], amount: f64) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// * `from` - ARGB representation of color
-/// * `to` - ARGB representation of color
-/// * `amount` - how much blending to perform; 0.0 >= and <= 1.0
+/// * `from`: ARGB representation of color
+/// * `to`: ARGB representation of color
+/// * `amount`: how much blending to perform; 0.0 >= and <= 1.0
 ///
 /// # Returns
 ///
@@ -80,76 +80,82 @@ pub fn cam16ucs(from: [u8; 4], to: [u8; 4], amount: f64) -> [u8; 4] {
 
 #[cfg(test)]
 mod tests {
+    use crate::blend::harmonize;
+
+    const RED: [u8; 4] = [255, 255, 0, 0];
+    const BLUE: [u8; 4] = [255, 0, 0, 255];
+    const GREEN: [u8; 4] = [255, 0, 255, 0];
+    const YELLOW: [u8; 4] = [255, 255, 255, 0];
+
     #[test]
-    fn placeholder_test() {
-        let sum = 2 + 2;
-        assert_eq!(sum, 4);
+    fn harmonize_red_to_blue() {
+        let val = harmonize(RED, BLUE);
+        assert_eq!(val, [255, 251, 0, 87]);
     }
 
-    /* const RED = 0xffff0000;
-    const BLUE = 0xff0000ff;
-    const GREEN = 0xff00ff00;
-    const YELLOW = 0xffffff00;
+    #[test]
+    fn harmonize_red_to_green() {
+        let val = harmonize(RED, GREEN);
+        assert_eq!(val, [255, 216, 86, 0]);
+    }
 
-    describe('harmonize', () => {
-      it('redToBlue', () => {
-        const answer = Blend.harmonize(RED, BLUE);
-        expect(answer).matchesColor(0xffFB0057);
-      });
+    #[test]
+    fn harmonize_red_to_yellow() {
+        let val = harmonize(RED, YELLOW);
+        assert_eq!(val, [255, 216, 86, 0]);
+    }
 
-      it('redToGreen', () => {
-        const answer = Blend.harmonize(RED, GREEN);
-        expect(answer).matchesColor(0xffD85600);
-      });
+    #[test]
+    fn harmonize_blue_to_green() {
+        let val = harmonize(BLUE, GREEN);
+        assert_eq!(val, [255, 0, 71, 163]);
+    }
 
-      it('redToYellow', () => {
-        const answer = Blend.harmonize(RED, YELLOW);
-        expect(answer).matchesColor(0xffD85600);
-      });
+    #[test]
+    fn harmonize_blue_to_red() {
+        let val = harmonize(BLUE, RED);
+        assert_eq!(val, [255, 87, 0, 220]);
+    }
 
-      it('blueToGreen', () => {
-        const answer = Blend.harmonize(BLUE, GREEN);
-        expect(answer).matchesColor(0xff0047A3);
-      });
+    #[test]
+    fn harmonize_blue_to_yellow() {
+      let val = harmonize(BLUE, YELLOW);
+        assert_eq!(val, [255, 0, 71, 163]);
+    }
 
-      it('blueToRed', () => {
-        const answer = Blend.harmonize(BLUE, RED);
-        expect(answer).matchesColor(0xff5700DC);
-      });
+    #[test]
+    fn harmonize_green_to_blue() {
+        let val = harmonize(GREEN, BLUE);
+        assert_eq!(val, [255, 0, 252, 148]);
+    }
 
-      it('blueToYellow', () => {
-        const answer = Blend.harmonize(BLUE, YELLOW);
-        expect(answer).matchesColor(0xff0047A3);
-      });
+    #[test]
+    fn harmonize_green_to_red() {
+        let val = harmonize(GREEN, RED);
+        assert_eq!(val, [255, 177, 240, 0]);
+    }
 
-      it('greenToBlue', () => {
-        const answer = Blend.harmonize(GREEN, BLUE);
-        expect(answer).matchesColor(0xff00FC94);
-      });
+    #[test]
+    fn harmonize_green_to_yellow() {
+        let val = harmonize(GREEN, YELLOW);
+        assert_eq!(val, [255, 177, 240, 0]);
+    }
 
-      it('greenToRed', () => {
-        const answer = Blend.harmonize(GREEN, RED);
-        expect(answer).matchesColor(0xffB1F000);
-      });
+    #[test]
+    fn harmonize_yellow_to_blue() {
+        let val = harmonize(YELLOW, BLUE);
+        assert_eq!(val, [255, 235, 255, 186]);
+    }
 
-      it('greenToYellow', () => {
-        const answer = Blend.harmonize(GREEN, YELLOW);
-        expect(answer).matchesColor(0xffB1F000);
-      });
+    #[test]
+    fn harmonize_yellow_to_green() {
+        let val = harmonize(YELLOW, GREEN);
+        assert_eq!(val, [255, 235, 255, 186]);
+    }
 
-      it('yellowToBlue', () => {
-        const answer = Blend.harmonize(YELLOW, BLUE);
-        expect(answer).matchesColor(0xffEBFFBA);
-      });
-
-      it('yellowToGreen', () => {
-        const answer = Blend.harmonize(YELLOW, GREEN);
-        expect(answer).matchesColor(0xffEBFFBA);
-      });
-
-      it('yellowToRed', () => {
-        const answer = Blend.harmonize(YELLOW, RED);
-        expect(answer).matchesColor(0xffFFF6E3);
-      });
-    }); */
+    #[test]
+    fn harmonize_yellow_to_red() {
+        let val = harmonize(YELLOW, RED);
+        assert_eq!(val, [255, 255, 246, 227]);
+    }
 }

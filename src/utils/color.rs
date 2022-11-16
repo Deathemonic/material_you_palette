@@ -1,6 +1,4 @@
-//! Collection of commonly used color calculations and value transformations
-//!
-//! Pretty much what I said above.
+//! Collection of commonly used color calculations and transformations
 use crate::utils::math::matrix_multiply;
 
 /// Maps calculation values from sRGB color space to XYZ
@@ -32,11 +30,10 @@ pub const WHITE_POINT_D65: [f64; 3] = [95.047, 100.0, 108.883];
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                 |
-/// | ------------ | ------------ | ------------------------------------------- |
-/// | rgb          | [u8; 3]      | A color value mapped to distinct RGB values |
+/// * `rgb`: A color value mapped to distinct RGB values
 ///
 /// # Returns
+///
 /// * An ARGB color value mapped to distinct ARGB values
 pub fn argb_from_rgb(rgb: [u8; 3]) -> [u8; 4] {
     [255, rgb[0], rgb[1], rgb[2]]
@@ -46,9 +43,7 @@ pub fn argb_from_rgb(rgb: [u8; 3]) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                |
-/// | ------------ | ------------ | ------------------------------------------ |
-/// | linrgb       | [f64; 3]     | Color value in distinct linear RGB values  |
+/// * `linrgb`: Color value in distinct linear RGB values
 ///
 /// # Returns
 /// * An ARGB color value mapped to distinct ARGB values
@@ -63,11 +58,10 @@ pub fn argb_from_linrgb(linrgb: [f64; 3]) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                  |
-/// | ------------ | ------------ | -------------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to distinct ARGB values |
+/// * `argb`: A color value mapped to distinct ARGB values
 ///
 /// # Returns
+///
 /// * The alpha channel value ranging from 0 to 255
 pub fn alpha_from_argb(argb: [u8; 4]) -> u8 {
     argb[0]
@@ -77,11 +71,10 @@ pub fn alpha_from_argb(argb: [u8; 4]) -> u8 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                  |
-/// | ------------ | ------------ | -------------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to distinct ARGB values |
+/// * `argb`: A color value mapped to distinct ARGB values
 ///
 /// # Returns
+///
 /// * The red channel value ranging from 0 to 255
 pub fn red_from_argb(argb: [u8; 4]) -> u8 {
     argb[1]
@@ -91,11 +84,10 @@ pub fn red_from_argb(argb: [u8; 4]) -> u8 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                  |
-/// | ------------ | ------------ | -------------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to distinct ARGB values |
+/// * `argb`: A color value mapped to distinct ARGB values
 ///
 /// # Returns
+///
 /// * The green channel value ranging from 0 to 255
 pub fn green_from_argb(argb: [u8; 4]) -> u8 {
     argb[2]
@@ -105,11 +97,10 @@ pub fn green_from_argb(argb: [u8; 4]) -> u8 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                  |
-/// | ------------ | ------------ | -------------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to distinct ARGB values |
+/// * `argb`: A color value mapped to distinct ARGB values
 ///
 /// # Returns
+///
 /// * The blue channel value ranging from 0 to 255
 pub fn blue_from_argb(argb: [u8; 4]) -> u8 {
     argb[3]
@@ -119,11 +110,10 @@ pub fn blue_from_argb(argb: [u8; 4]) -> u8 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                  |
-/// | ------------ | ------------ | -------------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to distinct ARGB values |
+/// * `argb`: A color value mapped to distinct ARGB values
 ///
 /// # Returns
+///
 /// * true if the alpha channel is 255
 pub fn is_opaque(argb: [u8; 4]) -> bool {
     alpha_from_argb(argb) == 255
@@ -133,11 +123,10 @@ pub fn is_opaque(argb: [u8; 4]) -> bool {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                             |
-/// | ------------ | ------------ | --------------------------------------- |
-/// | xyz          | [f64; 3]     | A color value mapped to XYZ color space |
+/// * `xyz`: A color value mapped to XYZ color space
 ///
 /// # Returns
+///
 /// * An ARGB equivalent of the supplied color
 pub fn argb_from_xyz(xyz: [f64; 3]) -> [u8; 4] {
     let rgb = matrix_multiply(xyz, XYZ_TO_SRGB);
@@ -151,11 +140,10 @@ pub fn argb_from_xyz(xyz: [f64; 3]) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                              |
-/// | ------------ | ------------ | ---------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to sRGB color space |
+/// * `argb`: A color value mapped to sRGB color space
 ///
 /// # Returns
+///
 /// * An XYZ equivalent of the supplied color
 pub fn xyz_from_argb(argb: [u8; 4]) -> [f64; 3] {
     let r = linearized(argb[1]);
@@ -168,13 +156,12 @@ pub fn xyz_from_argb(argb: [u8; 4]) -> [f64; 3] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                    |
-/// | ------------ | ------------ | ------------------------------ |
-/// | l            | f64          | Lightness value of the color   |
-/// | a            | f64          | Red/Green value of the color   |
-/// | b            | f64          | Blue/Yellow value of the color |
+/// * `l`: Lightness value of the color
+/// * `a`: Red/Green value of the color
+/// * `b`: Blue/Yellow value of the color
 ///
 /// # Returns
+///
 /// * An ARGB equivalent of the supplied color
 pub fn argb_from_lab(l: f64, a: f64, b: f64) -> [u8; 4] {
     let fy = (l + 16.0) / 116.0;
@@ -190,11 +177,10 @@ pub fn argb_from_lab(l: f64, a: f64, b: f64) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                              |
-/// | ------------ | ------------ | ---------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to sRGB color space |
+/// * `argb`: A color value mapped to sRGB color space
 ///
 /// # Returns
+///
 /// * An L*a*b* equivalent of the supplied color
 pub fn lab_from_argb(argb: [u8; 4]) -> [f64; 3] {
     let [x, y, z] = xyz_from_argb(argb);
@@ -211,11 +197,10 @@ pub fn lab_from_argb(argb: [u8; 4]) -> [f64; 3] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                            |
-/// | ------------ | ------------ | -------------------------------------- |
-/// | lstar        | f64          | The Lightness value of an L*a*b* color |
+/// * `lstar`: The Lightness value of an L*a*b* color
 ///
 /// # Returns
+///
 /// * ARGB representation of grayscale color with lightness matching L*
 pub fn argb_from_lstar(lstar: f64) -> [u8; 4] {
     let y = y_from_lstar(lstar);
@@ -227,11 +212,10 @@ pub fn argb_from_lstar(lstar: f64) -> [u8; 4] {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                              |
-/// | ------------ | ------------ | ---------------------------------------- |
-/// | argb         | [u8; 4]      | A color value mapped to sRGB color space |
+/// * `argb`: A color value mapped to sRGB color space
 ///
 /// # Returns
+///
 /// * L*, from L*a*b*, coordinate of the color
 pub fn lstar_from_argb(argb: [u8; 4]) -> f64 {
     let y = xyz_from_argb(argb)[1];
@@ -246,11 +230,10 @@ pub fn lstar_from_argb(argb: [u8; 4]) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                            |
-/// | ------------ | ------------ | -------------------------------------- |
-/// | lstar        | f64          | The Lightness value of an L*a*b* color |
+/// * `lstar`: The Lightness value of an L*a*b* color
 ///
 /// # Returns
+///
 /// * The value of Y from the XYZ color space that corresponds to the L* value
 pub fn y_from_lstar(lstar: f64) -> f64 {
     100.0 * lab_invf((lstar + 16.0) / 116.0)
@@ -260,11 +243,10 @@ pub fn y_from_lstar(lstar: f64) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                            |
-/// | ------------ | ------------ | -------------------------------------- |
-/// | rgb_comp     | u8           | RGB channel component to normalize     |
+/// * `rgb_comp`: RGB channel component to normalize
 ///
 /// # Returns
+///
 /// * 0.0 <= output <= 100.0, color channel converted to linear RGB space
 pub fn linearized(rgb_comp: u8) -> f64 {
     let normalized = rgb_comp as f64 / 255.0;
@@ -279,11 +261,10 @@ pub fn linearized(rgb_comp: u8) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                            |
-/// | ------------ | ------------ | -------------------------------------- |
-/// | rgb_comp     | u8           | RGB channel component to normalize     |
+/// * `rgb_comp`: RGB channel component to normalize
 ///
 /// # Returns
+///
 /// * 0 <= output <= 255, color channel converted to regular RGB space
 pub fn delinearized(rgb_comp: f64) -> u8 {
     let normalized = rgb_comp / 100.0;
@@ -298,11 +279,24 @@ pub fn delinearized(rgb_comp: f64) -> u8 {
 /// Returns the standard white point
 ///
 /// # Returns
+///
 /// * A fixed shade of white; white on a sunny day
 pub fn white_point_d65() -> [f64; 3] {
     WHITE_POINT_D65
 }
 
+/// Returns a perceived luminance value of `t`
+///
+/// Used to identify the perceived luminance of a supplied value from the ARGB
+/// color space. This is needed to convert RGB colors to L*a*b* colors.
+///
+/// # Arguments
+///
+/// * `t`: The value of R,G or B to convert
+///
+/// # Returns
+///
+/// * The perceived luminance of `t`.
 fn lab_f(t: f64) -> f64 {
     let e = 216.0 / 24389.0;
     let kappa = 24389.0 / 27.0;
@@ -313,6 +307,18 @@ fn lab_f(t: f64) -> f64 {
     }
 }
 
+/// Returns an inverted perceived luminance value of `ft`
+///
+/// Used to convert a color from L*a*b* color space to RGB color space.
+///
+/// # Arguments
+///
+/// * `ft`: The luminance value of L*, a*, or b*
+///
+/// # Returns
+///
+/// * The base R, G or B value to then multiply against the standard brightness
+///   of WHITE_POINT_D65.
 fn lab_invf(ft: f64) -> f64 {
     let e = 216.0 / 24389.0;
     let kappa = 24389.0 / 27.0;

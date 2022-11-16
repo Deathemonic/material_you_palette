@@ -1,13 +1,12 @@
-/*!
-A collection of commonly used math functions within this library
-
-Just what was said above. There are some calculations that are used in many
-of the other functions of this library. Instead of reinventing the wheel,...
-*/
+//! A collection of commonly used math functions within this library
+//!
+//! Just what was said above. There are some calculations that are used in many
+//! of the other functions of this library. Instead of reinventing the wheel,...
 
 /// Linear Interpolation function
 ///
 /// # Returns
+///
 /// * `start` if `amount` = 0 and `stop` if `amount` = 1
 pub fn lerp(start: f64, stop: f64, amount: f64) -> f64 {
     (1.0 - amount) * start + amount * stop
@@ -21,12 +20,11 @@ pub fn lerp(start: f64, stop: f64, amount: f64) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                                |
-/// | ------------ | ------------ | ------------------------------------------ |
-/// | from         | f64          | The angle travel starts from, in degrees   |
-/// | to           | f64          | The angle travel ends at, in degrees.      |
+/// * `from`: The angle travel starts from, in degrees
+/// * `to`: The angle travel ends at, in degrees.
 ///
 /// # Returns
+///
 /// * -1 if decreasing from leads to the shortest travel distance,
 /// * 1 if increasing from leadsto the shortest travel distance.
 pub fn rotation_direction(from: f64, to: f64) -> f64 {
@@ -42,12 +40,11 @@ pub fn rotation_direction(from: f64, to: f64) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description      |
-/// | ------------ | ------------ | ---------------- |
-/// | a            | f64          | First position   |
-/// | b            | f64          | Second position  |
+/// * `a`: First position
+/// * `b`: Second position
 ///
 /// # Returns
+///
 /// * The distance between the first position and second position as plotted on
 ///   a circle.
 pub fn difference_degrees(a: f64, b: f64) -> f64 {
@@ -58,11 +55,10 @@ pub fn difference_degrees(a: f64, b: f64) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description                           |
-/// | ------------ | ------------ | ------------------------------------- |
-/// | degrees      | i32          | Angle on a circle, potentially signed |
+/// * `degrees`: Angle on a circle, potentially signed
 ///
 /// # Returns
+///
 /// * A degree measure between 0 (inclusive) and 360 (exclusive).
 pub fn sanitize_degrees_int(mut degrees: i32) -> u32 {
     degrees %= 360;
@@ -76,11 +72,10 @@ pub fn sanitize_degrees_int(mut degrees: i32) -> u32 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type         | Description       |
-/// | ------------ | ------------ | ----------------- |
-/// | degrees      | f64          | Angle on a circle |
+/// * `degrees`: Angle on a circle
 ///
 /// # Returns
+///
 /// * A degree measure between 0.0 (inclusive) and 360.0 (exclusive).
 pub fn sanitize_degrees_double(mut degrees: f64) -> f64 {
     degrees %= 360.0;
@@ -94,14 +89,13 @@ pub fn sanitize_degrees_double(mut degrees: f64) -> f64 {
 ///
 /// # Arguments
 ///
-/// | Param        | Type           | Description       |
-/// | ------------ | -------------- | ----------------- |
-/// | row          | [f64; 3]       |                   |
-/// | matrix       | [ [f64; 3]; 3] |                   |
+/// * `row`
+/// * `matrix`
 ///
 /// # Returns
+///
 /// * Some voodoo
-/// @TODO: Need to understand this a little better.
+/// @TODO: Need to understand / document this a little better.
 pub fn matrix_multiply(row: [f64; 3], matrix: [[f64; 3]; 3]) -> [f64; 3] {
     let a = row[0] * matrix[0][0] + row[1] * matrix[0][1] + row[2] * matrix[0][2];
     let b = row[0] * matrix[1][0] + row[1] * matrix[1][1] + row[2] * matrix[1][2];

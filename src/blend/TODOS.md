@@ -1,1 +1,4 @@
 - [ ] Import / recreate all tests
+  - [x] Test `harmonize`
+  - [ ] Test `hct_hue`
+  - [ ] Test `cam16ucs`

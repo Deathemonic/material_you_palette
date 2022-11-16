@@ -1,28 +1,26 @@
-/*!
-A utility library for converting to and from hex color strings.
-
-This library makes the assumption that all hex strings supplied and returned
-adhere to CSS standards for hex color strings. This means that the library
-supports short-code colors (3 characters like #FFF for white), standard RGB
-color strings (6 characters like #FF0000 for red), and RGBA color strings to
-support an alpha channel (8 characters like #C6C6C680 for a gray that is
-partly translucent).
-
-NOTE: Any alpha channel in hex colors supplied and returned is expected to
-be the last value in the string. This is compliant with the standard form
-used in CSS / HTML.
-*/
+//! A utility library for converting to and from hex color strings.
+//!
+//! This library makes the assumption that all hex strings supplied and returned
+//! adhere to CSS standards for hex color strings. This means that the library
+//! supports short-code colors (3 characters like #FFF for white), standard RGB
+//! color strings (6 characters like #FF0000 for red), and RGBA color strings to
+//! support an alpha channel (8 characters like #C6C6C680 for a gray that is
+//! partly translucent).
+//!
+//! NOTE: Any alpha channel in hex colors supplied and returned is expected to
+//! be the last value in the string. This is compliant with the standard form
+//! used in CSS / HTML.
 use super::color::{alpha_from_argb, blue_from_argb, green_from_argb, red_from_argb};
 use hex::FromHex;
 
 /// Returns a hex RGB string representation of an ARGB numeric.
 ///
 /// # Arguments
-/// | Param        | Type         | Description                                |
-/// | ------------ | ------------ | ------------------------------------------ |
-/// | argb         | [u8; 4]      | ARGB representation of a color.            |
+///
+/// * `argb`: ARGB representation of a color.
 ///
 /// # Returns
+///
 /// * Hex string representing color, ex. #ff0000 for red.
 pub fn hex_from_argb(argb: [u8; 4]) -> String {
     let a: u8 = alpha_from_argb(argb);
@@ -40,11 +38,11 @@ pub fn hex_from_argb(argb: [u8; 4]) -> String {
 /// Returns an ARGB numeric representation of a hex RGB(A) string
 ///
 /// # Arguments
-/// | Param        | Type         | Description                                |
-/// | ------------ | ------------ | ------------------------------------------ |
-/// | `hex`        | String       | String representing color as hex code. Accepts strings with or without leading #, and string representing the color using 3, 6, or 8 hex characters. |
+///
+/// * `hex`: String representing color as hex code. Accepts strings with or without leading #, and string representing the color using 3, 6, or 8 hex characters.
 ///
 /// # Returns
+///
 /// * ARGB representation of color in a [u8; 4] package.
 pub fn argb_from_hex(hex: String) -> [u8; 4] {
     let trimmed_hex = hex.replace('#', "");

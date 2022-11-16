@@ -14,3 +14,9 @@ hex = "0.4.2"
 
 [dev-dependencies]
 assert_approx_eq = "1.1.0"
+
+[profile.release]
+# Comment the next line to run `cargo bloat --release --crates`
+strip = true
+opt-level = "s"
+lto = true
