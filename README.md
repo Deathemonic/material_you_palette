@@ -1,4 +1,4 @@
-# material_you_palette
+# PyMonet (WIP)
 
 **A direct quote from the original source material's readme:**
 
