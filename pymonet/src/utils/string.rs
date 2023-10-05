@@ -10,8 +10,12 @@
 //! NOTE: Any alpha channel in hex colors supplied and returned is expected to
 //! be the last value in the string. This is compliant with the standard form
 //! used in CSS / HTML.
+
+// rustimport:pyo3
 use super::color::{alpha_from_argb, blue_from_argb, green_from_argb, red_from_argb};
 use hex::FromHex;
+use pyo3::prelude::*;
+
 
 /// Returns a hex RGB string representation of an ARGB numeric.
 ///
@@ -22,6 +26,7 @@ use hex::FromHex;
 /// # Returns
 ///
 /// * Hex string representing color, ex. #ff0000 for red.
+#[pyfunction]
 pub fn hex_from_argb(argb: [u8; 4]) -> String {
     let a: u8 = alpha_from_argb(argb);
     let r = red_from_argb(argb);
@@ -44,6 +49,7 @@ pub fn hex_from_argb(argb: [u8; 4]) -> String {
 /// # Returns
 ///
 /// * ARGB representation of color in a [u8; 4] package.
+#[pyfunction]
 pub fn argb_from_hex(hex: String) -> [u8; 4] {
     let trimmed_hex = hex.replace('#', "");
     let mut a: u8 = 255;

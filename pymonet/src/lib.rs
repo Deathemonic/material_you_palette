@@ -1,4 +1,4 @@
-//!# material_you_palette
+//!# Pymonet
 //!
 //! **A direct quote from the original source material's readme:**
 //!
@@ -16,7 +16,7 @@
 //!
 //! ## Getting started
 //! ```rust
-//! use material_you_palette::{
+//! use pymonet::{
 //!     utils::theme::Theme,
 //!     utils::string::argb_from_hex,
 //!     utils::string::hex_from_argb,
@@ -56,10 +56,11 @@
 //! - [ ] Incorporate serde for optionally getting JSON for the palette
 //!
 //! ## Contributing
+
+
 pub mod blend;
 pub mod hct;
 pub mod palettes;
-// pub mod quantize;
 pub mod scheme;
 pub mod score;
 pub mod utils;

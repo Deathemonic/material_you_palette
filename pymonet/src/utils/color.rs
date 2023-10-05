@@ -1,5 +1,8 @@
 //! Collection of commonly used color calculations and transformations
+
+// rustimport:pyo3
 use crate::utils::math::matrix_multiply;
+use pyo3::prelude::*;
 
 /// Maps calculation values from sRGB color space to XYZ
 pub const SRGB_TO_XYZ: [[f64; 3]; 3] = [
@@ -35,6 +38,7 @@ pub const WHITE_POINT_D65: [f64; 3] = [95.047, 100.0, 108.883];
 /// # Returns
 ///
 /// * An ARGB color value mapped to distinct ARGB values
+#[pyfunction]
 pub fn argb_from_rgb(rgb: [u8; 3]) -> [u8; 4] {
     [255, rgb[0], rgb[1], rgb[2]]
 }
@@ -47,6 +51,7 @@ pub fn argb_from_rgb(rgb: [u8; 3]) -> [u8; 4] {
 ///
 /// # Returns
 /// * An ARGB color value mapped to distinct ARGB values
+#[pyfunction]
 pub fn argb_from_linrgb(linrgb: [f64; 3]) -> [u8; 4] {
     let r = delinearized(linrgb[0]);
     let g = delinearized(linrgb[1]);
@@ -63,6 +68,7 @@ pub fn argb_from_linrgb(linrgb: [f64; 3]) -> [u8; 4] {
 /// # Returns
 ///
 /// * The alpha channel value ranging from 0 to 255
+#[pyfunction]
 pub fn alpha_from_argb(argb: [u8; 4]) -> u8 {
     argb[0]
 }
@@ -76,6 +82,7 @@ pub fn alpha_from_argb(argb: [u8; 4]) -> u8 {
 /// # Returns
 ///
 /// * The red channel value ranging from 0 to 255
+#[pyfunction]
 pub fn red_from_argb(argb: [u8; 4]) -> u8 {
     argb[1]
 }
@@ -89,6 +96,7 @@ pub fn red_from_argb(argb: [u8; 4]) -> u8 {
 /// # Returns
 ///
 /// * The green channel value ranging from 0 to 255
+#[pyfunction]
 pub fn green_from_argb(argb: [u8; 4]) -> u8 {
     argb[2]
 }
@@ -102,6 +110,7 @@ pub fn green_from_argb(argb: [u8; 4]) -> u8 {
 /// # Returns
 ///
 /// * The blue channel value ranging from 0 to 255
+#[pyfunction]
 pub fn blue_from_argb(argb: [u8; 4]) -> u8 {
     argb[3]
 }
@@ -115,6 +124,7 @@ pub fn blue_from_argb(argb: [u8; 4]) -> u8 {
 /// # Returns
 ///
 /// * true if the alpha channel is 255
+#[pyfunction]
 pub fn is_opaque(argb: [u8; 4]) -> bool {
     alpha_from_argb(argb) == 255
 }
@@ -128,6 +138,7 @@ pub fn is_opaque(argb: [u8; 4]) -> bool {
 /// # Returns
 ///
 /// * An ARGB equivalent of the supplied color
+#[pyfunction]
 pub fn argb_from_xyz(xyz: [f64; 3]) -> [u8; 4] {
     let rgb = matrix_multiply(xyz, XYZ_TO_SRGB);
     let r = delinearized(rgb[0]);
@@ -145,6 +156,7 @@ pub fn argb_from_xyz(xyz: [f64; 3]) -> [u8; 4] {
 /// # Returns
 ///
 /// * An XYZ equivalent of the supplied color
+#[pyfunction]
 pub fn xyz_from_argb(argb: [u8; 4]) -> [f64; 3] {
     let r = linearized(argb[1]);
     let g = linearized(argb[2]);
@@ -163,6 +175,7 @@ pub fn xyz_from_argb(argb: [u8; 4]) -> [f64; 3] {
 /// # Returns
 ///
 /// * An ARGB equivalent of the supplied color
+#[pyfunction]
 pub fn argb_from_lab(l: f64, a: f64, b: f64) -> [u8; 4] {
     let fy = (l + 16.0) / 116.0;
     let fx = a / 500.0 + fy;
@@ -182,6 +195,7 @@ pub fn argb_from_lab(l: f64, a: f64, b: f64) -> [u8; 4] {
 /// # Returns
 ///
 /// * An L*a*b* equivalent of the supplied color
+#[pyfunction]
 pub fn lab_from_argb(argb: [u8; 4]) -> [f64; 3] {
     let [x, y, z] = xyz_from_argb(argb);
     let fx = lab_f(x / WHITE_POINT_D65[0]);
@@ -202,6 +216,7 @@ pub fn lab_from_argb(argb: [u8; 4]) -> [f64; 3] {
 /// # Returns
 ///
 /// * ARGB representation of grayscale color with lightness matching L*
+#[pyfunction]
 pub fn argb_from_lstar(lstar: f64) -> [u8; 4] {
     let y = y_from_lstar(lstar);
     let w = delinearized(y);
@@ -217,6 +232,7 @@ pub fn argb_from_lstar(lstar: f64) -> [u8; 4] {
 /// # Returns
 ///
 /// * L*, from L*a*b*, coordinate of the color
+#[pyfunction]
 pub fn lstar_from_argb(argb: [u8; 4]) -> f64 {
     let y = xyz_from_argb(argb)[1];
     116.0 * lab_f(y / 100.0) - 16.0
@@ -235,6 +251,7 @@ pub fn lstar_from_argb(argb: [u8; 4]) -> f64 {
 /// # Returns
 ///
 /// * The value of Y from the XYZ color space that corresponds to the L* value
+#[pyfunction]
 pub fn y_from_lstar(lstar: f64) -> f64 {
     100.0 * lab_invf((lstar + 16.0) / 116.0)
 }
@@ -248,6 +265,7 @@ pub fn y_from_lstar(lstar: f64) -> f64 {
 /// # Returns
 ///
 /// * 0.0 <= output <= 100.0, color channel converted to linear RGB space
+#[pyfunction]
 pub fn linearized(rgb_comp: u8) -> f64 {
     let normalized = rgb_comp as f64 / 255.0;
     if normalized <= 0.040449936 {
@@ -266,6 +284,7 @@ pub fn linearized(rgb_comp: u8) -> f64 {
 /// # Returns
 ///
 /// * 0 <= output <= 255, color channel converted to regular RGB space
+#[pyfunction]
 pub fn delinearized(rgb_comp: f64) -> u8 {
     let normalized = rgb_comp / 100.0;
     let delinearized = if normalized <= 0.0031308 {
@@ -281,6 +300,7 @@ pub fn delinearized(rgb_comp: f64) -> u8 {
 /// # Returns
 ///
 /// * A fixed shade of white; white on a sunny day
+#[pyfunction]
 pub fn white_point_d65() -> [f64; 3] {
     WHITE_POINT_D65
 }
@@ -297,6 +317,7 @@ pub fn white_point_d65() -> [f64; 3] {
 /// # Returns
 ///
 /// * The perceived luminance of `t`.
+#[pyfunction]
 fn lab_f(t: f64) -> f64 {
     let e = 216.0 / 24389.0;
     let kappa = 24389.0 / 27.0;
@@ -319,6 +340,7 @@ fn lab_f(t: f64) -> f64 {
 ///
 /// * The base R, G or B value to then multiply against the standard brightness
 ///   of WHITE_POINT_D65.
+#[pyfunction]
 fn lab_invf(ft: f64) -> f64 {
     let e = 216.0 / 24389.0;
     let kappa = 24389.0 / 27.0;
